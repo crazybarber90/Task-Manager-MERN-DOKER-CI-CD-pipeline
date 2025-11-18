@@ -26,7 +26,7 @@ type CardTypes = {
   icon: ReactNode
 }
 
-const Layout = ({ user, onLogout, children }: LayoutProps) => {
+const Layout = ({ user, onLogout }: LayoutProps) => {
   const [tasks, setTasks] = useState<TaskI[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
@@ -63,6 +63,8 @@ const Layout = ({ user, onLogout, children }: LayoutProps) => {
       } else {
         setError((err as Error).message || 'Could not Load tasks')
       }
+      setLoading(false)
+    } finally {
       setLoading(false)
     }
   }, [onLogout])
@@ -141,7 +143,7 @@ const Layout = ({ user, onLogout, children }: LayoutProps) => {
       <div className="ml-10 xl:ml-64 lg:ml-64 md:ml-16 pt-16 p-3 sm:p-4 md:p-4 transition-all duration-300"></div>
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
         <div className="xl:col-span-2 space-y-3 sm:space-y-4">
-          <Outlet context={{ tasks, refreshTasks, refetchTasks }} />
+          <Outlet context={{ tasks, refreshTasks: fetchTasks, fetchTasks }} />
         </div>
 
         <div className=" xl:col-span-1 space-y-4 sm:space-y-6">
