@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes, useNavigate } from 'react-router-dom'
+import { Outlet, Route, Routes, useNavigate, Navigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import type { UserI } from './types/userType'
 import Layout from './components/Layout'
@@ -38,11 +38,11 @@ function App() {
     navigate('/login', { replace: true })
   }
 
-  const protectedLayout = () => {
-    ;<Layout user={currentUser as UserI} onLogout={handleLogout}>
+  const ProtectedLayout = () => (
+    <Layout user={currentUser as UserI} onLogout={handleLogout}>
       <Outlet />
     </Layout>
-  }
+  )
   return (
     <Routes>
       <Route
@@ -75,10 +75,19 @@ function App() {
         }
       />
 
+      {/* PROTECTED ROUTES */}
+      <Route
+        element={
+          currentUser ? <ProtectedLayout /> : <Navigate to="/login" replace />
+        }
+      />
+
       <Route
         path="/"
         element={<Layout user={currentUser as UserI} onLogout={handleLogout} />}
       />
+
+      <Route path="*" element={<Navigate to="/" />}></Route>
     </Routes>
   )
 }
