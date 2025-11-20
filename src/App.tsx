@@ -5,6 +5,9 @@ import Layout from './components/Layout'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Dashboard from './pages/Dashboard'
+import PendingPage from './pages/PendingPage'
+import CompletePage from './pages/CompletePage'
+import Profile from './components/Profile'
 
 function App() {
   const navigate = useNavigate()
@@ -40,9 +43,7 @@ function App() {
   }
 
   const ProtectedLayout = () => (
-    <Layout user={currentUser as UserI} onLogout={handleLogout}>
-      <Outlet />
-    </Layout>
+    <Layout user={currentUser as UserI} onLogout={handleLogout} />
   )
   return (
     <Routes>
@@ -75,6 +76,18 @@ function App() {
         }
       >
         <Route path="/" element={<Dashboard />} />
+        <Route path="/pending" element={<PendingPage />} />
+        <Route path="/complete" element={<CompletePage />} />
+        <Route
+          path="/profile"
+          element={
+            <Profile
+              user={currentUser}
+              setCurentUser={setCurrentUser}
+              onLogout={handleLogout}
+            />
+          }
+        />
       </Route>
 
       <Route
