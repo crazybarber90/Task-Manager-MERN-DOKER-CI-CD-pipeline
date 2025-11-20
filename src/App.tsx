@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes, useNavigate, Navigate } from 'react-router-dom'
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import type { UserI } from './types/userType'
 import Layout from './components/Layout'
@@ -82,8 +82,8 @@ function App() {
           path="/profile"
           element={
             <Profile
-              user={currentUser}
-              setCurentUser={setCurrentUser}
+              // user={currentUser}
+              setCurrentUser={setCurrentUser}
               onLogout={handleLogout}
             />
           }

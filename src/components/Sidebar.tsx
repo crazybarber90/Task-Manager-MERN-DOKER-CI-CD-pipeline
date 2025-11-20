@@ -18,7 +18,7 @@ type SidebarProps = {
 
 const Sidebar = ({ user, tasks }: SidebarProps) => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false)
-  const [showModal, setShowModal] = useState<boolean>(false)
+  // const [showModal, setShowModal] = useState<boolean>(false)
 
   const totalTasks = tasks?.length || 0
   const completedTasks = tasks?.filter((t) => t.completed).length || 0

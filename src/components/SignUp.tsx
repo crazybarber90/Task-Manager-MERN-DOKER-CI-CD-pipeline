@@ -39,12 +39,12 @@ const MESSAGES: InitMessage = {
 
 const API_URL = 'http://localhost:4000'
 
-const SignUp = ({ onSubmit, onSwitchMode }: SignUpProps) => {
+const SignUp = ({ onSwitchMode }: SignUpProps) => {
   const [formData, setFormData] = useState(INITIAL_FORM)
   const [message, setMessage] = useState(MESSAGES)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setMessage({ text: '', type: '' })

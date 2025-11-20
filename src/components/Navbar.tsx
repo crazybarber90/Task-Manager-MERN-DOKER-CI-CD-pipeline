@@ -20,7 +20,7 @@ const Navbar = ({ user, onLogout }: NavbarProps) => {
 
   const handleLogout = () => {
     setMenuOpen(false)
-    // onLogout()
+    onLogout()
     console.log('LOGOUT')
   }
   return (
