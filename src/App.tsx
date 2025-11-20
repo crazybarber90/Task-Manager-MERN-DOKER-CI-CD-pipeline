@@ -4,6 +4,7 @@ import type { UserI } from './types/userType'
 import Layout from './components/Layout'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   const navigate = useNavigate()
@@ -48,46 +49,38 @@ function App() {
       <Route
         path="/login"
         element={
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center
-       justify-center"
-          >
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <Login
               onSubmit={handleAuthSubmit}
               onSwitchMode={() => navigate('/signup')}
-            />
+            />{' '}
           </div>
         }
       />
-
       <Route
         path="/signup"
         element={
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center
-       justify-center"
-          >
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <SignUp
               onSubmit={handleAuthSubmit}
               onSwitchMode={() => navigate('/login')}
-            />
+            />{' '}
           </div>
         }
       />
-
       {/* PROTECTED ROUTES */}
       <Route
         element={
           currentUser ? <ProtectedLayout /> : <Navigate to="/login" replace />
         }
-      />
+      >
+        <Route path="/" element={<Dashboard />} />
+      </Route>
 
       <Route
-        path="/"
-        element={<Layout user={currentUser as UserI} onLogout={handleLogout} />}
+        path="*"
+        element={<Navigate to={currentUser ? '/' : '/login'} replace />}
       />
-
-      <Route path="*" element={<Navigate to="/" />}></Route>
     </Routes>
   )
 }

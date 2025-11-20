@@ -138,7 +138,7 @@ const Layout = ({ user, onLogout }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-gray-50 ">
       <Navbar user={user} onLogout={onLogout} />
-      <Sidebar user={user} task={tasks} />
+      <Sidebar user={user} tasks={tasks} />
 
       <div className="ml-10 xl:ml-64 lg:ml-64 md:ml-16 pt-16 p-3 sm:p-4 md:p-4 transition-all duration-300"></div>
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">

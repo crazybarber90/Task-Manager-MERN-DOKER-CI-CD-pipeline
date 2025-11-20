@@ -71,3 +71,5 @@ export default defineConfig([
   },
 ])
 ```
+
+<!-- 3.04.00 [text](https://www.youtube.com/watch?v=VAKDr1lsix0)-->
