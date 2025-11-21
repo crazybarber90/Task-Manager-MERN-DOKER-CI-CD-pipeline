@@ -93,7 +93,7 @@ const Navbar = ({ user, onLogout }: NavbarProps) => {
                       setMenuOpen(false)
                       navigate('/profile')
                     }}
-                    className="w-full px-4 py-2.5 text-left hover: bg-purple-400 text-sm  text-gray-700 transition-colors flex items-center gap-2 group"
+                    className="w-full px-4 py-2.5 text-left hover:bg-purple-400 text-sm  text-gray-700 transition-colors flex items-center gap-2 group"
                     role="menuitem"
                   >
                     <Settings className="w-4 h-4 text-gray-700" />

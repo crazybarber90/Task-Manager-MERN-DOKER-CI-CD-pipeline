@@ -16,6 +16,7 @@ import {
   Clock,
   Calendar,
 } from 'lucide-react'
+import type { TaskI } from '../types/taskType'
 
 // BACKEND TEST
 // DUMMY DATA
@@ -63,7 +64,7 @@ export const priorityStyles = {
 }
 
 // data/defaultTask.js
-export const DEFAULT_TASK = {
+export const DEFAULT_TASK: TaskI = {
   title: '',
   description: '',
   priority: 'Low',

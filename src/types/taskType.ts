@@ -1,11 +1,13 @@
 export type TaskI = {
-  _id: string
+  _id?: string
   title: string
   description: string
-  priority: string
-  dueDate: Date
-  owner: string
+  priority: PriorityType
+  dueDate: string
+  owner?: string
   completed: boolean | string | number
-  createdAt: Date
-  id?: string | number
+  createdAt?: Date
+  id?: string | number | null
 }
+
+export type PriorityType = 'Low' | 'Medium' | 'High'

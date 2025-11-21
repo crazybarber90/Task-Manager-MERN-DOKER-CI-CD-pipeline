@@ -75,7 +75,7 @@ function App() {
           currentUser ? <ProtectedLayout /> : <Navigate to="/login" replace />
         }
       >
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard onLogout={handleLogout} />} />
         <Route path="/pending" element={<PendingPage />} />
         <Route path="/complete" element={<CompletePage />} />
         <Route

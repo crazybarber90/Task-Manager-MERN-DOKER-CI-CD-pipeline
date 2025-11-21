@@ -82,7 +82,6 @@ const Profile = ({ setCurrentUser, onLogout }: ProfileProps) => {
         }
       )
 
-      console.log('DATAAA', data)
       if (data.success) {
         toast.success('Profile Updated')
         setCurrentUser((prev) => ({
@@ -105,7 +104,38 @@ const Profile = ({ setCurrentUser, onLogout }: ProfileProps) => {
     }
   }
 
-  const changePassword = () => {}
+  const changePassword = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (passwords.new !== passwords.confirm) {
+      return toast.error('Password do not match')
+    }
+    try {
+      const token = localStorage.getItem('token')
+      const { data } = await axios.put(
+        `${API_URL}/api/user/password`,
+        { currentPassword: passwords.current, newPassword: passwords.new },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      if (data.success) {
+        toast.success('Password succesfully changed')
+        setPasswords(INIT_PASSWORDS)
+      } else {
+        toast.error(data.message)
+      }
+    } catch (err) {
+      console.error(err)
+      if (axios.isAxiosError(err)) {
+        toast.error(err.response?.data?.message || 'Password change failed')
+
+        if (err.response?.status === 401) onLogout()
+      } else {
+        toast.error((err as Error).message || 'Could not change password')
+      }
+    }
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       <ToastContainer position="top-center" autoClose={3000} />
