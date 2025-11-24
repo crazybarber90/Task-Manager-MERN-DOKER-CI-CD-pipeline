@@ -5,7 +5,15 @@ import {
   DEFAULT_TASK,
   priorityStyles,
 } from '../assets/dummy'
-import { AlignLeft, Flag, PlusCircle, Save, X } from 'lucide-react'
+import {
+  AlignLeft,
+  Calendar,
+  CheckCircle,
+  Flag,
+  PlusCircle,
+  Save,
+  X,
+} from 'lucide-react'
 
 const API_BASE = 'http://localhost:4000/api/tasks'
 type TaskModalProps = {
@@ -195,7 +203,41 @@ const TaskModal = ({
               </select>
             </div>
 
-            <div></div>
+            <div>
+              <label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-1">
+                <Calendar className="w-4 h4 text-purple-500" />
+                Due Date
+              </label>
+              <input
+                className={baseControlClasses}
+                type="date"
+                name="dueDate"
+                required
+                min={today}
+                value={taskData.dueDate}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div>
+            <label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
+              <CheckCircle className="w-4 h4 text-purple-500" /> Status
+            </label>
+            <div className="flex gap-4">
+              {[
+                { val: 'Yes', label = 'Completed' },
+                { val: 'No', label: 'In Progress' },
+              ].map(({ val, label }) => (
+                <label
+                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                  type="radio"
+                  name="completed"
+                  value={val}
+                  checked={taskData.completed === val}
+                  onChange={handleChange}
+                />
+              ))}
+            </div>
           </div>
         </form>
       </div>
