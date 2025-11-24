@@ -225,17 +225,20 @@ const TaskModal = ({
             </label>
             <div className="flex gap-4">
               {[
-                { val: 'Yes', label = 'Completed' },
+                { val: 'Yes', label: 'Completed' },
                 { val: 'No', label: 'In Progress' },
               ].map(({ val, label }) => (
-                <label
-                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-                  type="radio"
-                  name="completed"
-                  value={val}
-                  checked={taskData.completed === val}
-                  onChange={handleChange}
-                />
+                <label key={val} className="flex items-center">
+                  <input
+                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                    type="radio"
+                    name="completed"
+                    value={val}
+                    checked={taskData.completed === val}
+                    onChange={handleChange}
+                  />
+                  <span className="ml-2 text-sm border-gray-700">{label}</span>
+                </label>
               ))}
             </div>
           </div>
