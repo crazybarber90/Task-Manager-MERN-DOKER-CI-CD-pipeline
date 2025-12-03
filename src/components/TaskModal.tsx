@@ -20,8 +20,8 @@ type TaskModalProps = {
   isOpen: boolean
   onClose: () => void
   taskToEdit: TaskI
-  onSave: (taskData: TaskI) => void
-  onLogout: () => void
+  onSave?: (taskData: TaskI) => void
+  onLogout?: () => void
 }
 const TaskModal = ({
   isOpen,
@@ -51,7 +51,7 @@ const TaskModal = ({
         priority: taskToEdit.priority || 'Low',
         dueDate: taskToEdit.dueDate?.split('T')[0] || '',
         completed: normalized,
-        id: taskToEdit._id,
+        id: taskToEdit._id ?? taskToEdit.id ?? null,
       })
     } else {
       setTaskData(DEFAULT_TASK as TaskI)
@@ -71,17 +71,19 @@ const TaskModal = ({
     []
   )
 
-  const getHeaders = useCallback(() => {
+  const getHeaders = () => {
     const token = localStorage.getItem('token')
     if (!token) throw new Error('No auth token found')
     return {
-      'Content-Type': 'application-json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     }
-  }, [])
+  }
+
+  console.log('TASK DATA', taskData)
 
   const handleSubmit = useCallback(
-    async (e: React.MouseEvent<HTMLFormElement>) => {
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (taskData.dueDate < today) {
         setError("Due date can't be in the past")
@@ -93,6 +95,7 @@ const TaskModal = ({
 
       try {
         const isEdit = Boolean(taskData.id)
+        console.log('DA LI JE EDIT', isEdit)
         const url = isEdit ? `${API_BASE}/${taskData.id}/gp` : `${API_BASE}/gp`
         const response = await fetch(url, {
           method: isEdit ? 'PUT' : 'POST',
@@ -100,13 +103,15 @@ const TaskModal = ({
           body: JSON.stringify(taskData),
         })
 
+        console.log('response', response)
+
         if (!response.ok) {
           if (response.status === 401) return onLogout?.()
           const err = await response.json()
           throw new Error(err.message || 'Failed to save task')
         }
         const saved = await response.json()
-
+        console.log('OKINUUUUUUUUULLLALAALLALAL')
         onSave?.(saved)
         onClose()
       } catch (err) {
@@ -120,8 +125,10 @@ const TaskModal = ({
         setLoading(false)
       }
     },
-    [taskData, today, getHeaders, onSave, onLogout, onClose]
+    [taskData, today, onSave, onLogout, onClose]
   )
+
+  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/20 z-50 flex items-center justify-center p-4">
@@ -237,11 +244,30 @@ const TaskModal = ({
                     checked={taskData.completed === val}
                     onChange={handleChange}
                   />
-                  <span className="ml-2 text-sm border-gray-700">{label}</span>
+                  <span className="ml-2 text-sm text-gray-700">{label}</span>
                 </label>
               ))}
             </div>
           </div>
+          <button
+            className="w-full bg-linear-to-br from-fuchsia-500 to-purple-600 text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 hover:shadow-md transition-all duration-200"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? (
+              'Saving...'
+            ) : taskData.id ? (
+              <>
+                <Save className="w-4 h-4" />
+                Update Task
+              </>
+            ) : (
+              <>
+                <PlusCircle className="w-4 h-4" />
+                Create Task
+              </>
+            )}
+          </button>
         </form>
       </div>
     </div>

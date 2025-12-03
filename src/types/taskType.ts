@@ -8,6 +8,7 @@ export type TaskI = {
   completed: boolean | string | number
   createdAt?: Date
   id?: string | number | null
+  subtasks?: TaskI[]
 }
 
 export type PriorityType = 'Low' | 'Medium' | 'High'

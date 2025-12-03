@@ -137,9 +137,10 @@ export const LINK_CLASSES = {
 }
 
 export const PRODUCTIVITY_CARD = {
-  container: 'bg-purple-50/50 rounded-xl p-3 border border-purple-100',
+  container:
+    'bg-purple-50/50 rounded-xl pt-3 pb-3 p-1 border border-purple-100',
   header: 'flex items-center justify-between mb-2',
-  label: 'text-xs font-semibold text-purple-700',
+  label: 'hidden lg:block text-xs font-semibold text-purple-700',
   badge: 'text-xs bg-purple-200 text-purple-700 px-2 py-0.5 rounded-full',
   barBg: 'w-full h-2 bg-purple-200 rounded-full overflow-hidden',
   barFg: 'h-full bg-gradient-to-r from-fuchsia-500 to-purple-600 animate-pulse',
@@ -286,7 +287,7 @@ export const SORT_OPTIONS = [
 
 // CSS class groups
 export const CT_CLASSES = {
-  page: 'p-4 md:p-6 min-h-screen overflow-hidden',
+  page: 'p-4 md:p-6 min-h-[60vh] overflow-hidden',
   header:
     'flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 gap-3 md:gap-4',
   titleWrapper: 'flex-1 min-w-0',
@@ -315,7 +316,7 @@ export const CT_CLASSES = {
 
 // constants/cssClasses.js
 export const layoutClasses = {
-  container: 'p-6 min-h-screen overflow-hidden',
+  container: 'p-6 min-h-[65vh] overflow-hidden',
   headerWrapper:
     'flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4',
   sortBox:
@@ -357,7 +358,7 @@ export const MENU_OPTIONS = [
 // CSS class groups for TaskItem
 export const TI_CLASSES = {
   wrapper:
-    'group p-4 sm:p-5 rounded-xl shadow-sm bg-white border-l-4 hover:shadow-md transition-all duration-300 border border-purple-100',
+    'group p-4 sm:p-5 rounded-xl shadow-sm bg-white border-l-2 hover:shadow-md transition-all duration-300 border border-purple-100',
   leftContainer: 'flex items-start gap-2 sm:gap-3 flex-1 min-w-0',
   completeBtn:
     'mt-0.5 sm:mt-1 p-1 sm:p-1.5 rounded-full hover:bg-purple-100 transition-colors duration-300',

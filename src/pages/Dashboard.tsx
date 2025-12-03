@@ -6,6 +6,7 @@ import {
   FILTER_OPTIONS,
   FILTER_WRAPPER,
   HEADER,
+  ICON_WRAPPER,
   LABEL_CLASS,
   SELECT_CLASSES,
   STAT_CARD,
@@ -27,24 +28,6 @@ import TaskModal from '../components/TaskModal'
 
 const API_BASE = 'http://localhost:4000/api/tasks'
 type FilterType = keyof typeof FILTER_LABELS
-// type StatsKey =
-//   | 'total'
-//   | 'lowPriority'
-//   | 'mediumPriority'
-//   | 'highPriority'
-//   | 'completed'
-
-// const INIT_TASK = {
-//   _id: '',
-//   title: '',
-//   description: '',
-//   priority: '',
-//   dueDate: null,
-//   owner: '',
-//   completed: null,
-//   createdAt: null,
-//   id: null,
-// }
 
 const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
   const { tasks, refreshTasks } = useOutletContext<{
@@ -53,7 +36,7 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
   }>()
 
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [selectedTask, setSelectedTask] = useState<TaskI | null>()
+  const [selectedTask, setSelectedTask] = useState<TaskI | null>(null)
   const [filter, setFilter] = useState<FilterType>('all')
 
   const stats = useMemo(
@@ -107,20 +90,24 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
     [tasks, filter]
   )
 
-  // SAVING TASK
-  const handleTaskSave = useCallback(
-    async (taskData: TaskI) => {
-      try {
-        if (taskData) await axios.put(`${API_BASE}/${taskData.id}/gp`, taskData)
-        refreshTasks()
-        setShowModal(false)
-        setSelectedTask(null)
-      } catch (error) {
-        console.error('Error Saving tasks', error)
-      }
-    },
-    [refreshTasks]
-  )
+  const getHeaders = () => ({
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    'Content-Type': 'application/json',
+  })
+
+  const handleTaskSave = useCallback(async (taskData: TaskI) => {
+    try {
+      if (taskData.id || taskData._id)
+        await axios.put(`${API_BASE}/${taskData.id}/gp`, taskData, {
+          headers: getHeaders(),
+        })
+      refreshTasks()
+      setShowModal(false)
+      setSelectedTask(null)
+    } catch (err) {
+      console.error(err)
+    }
+  }, [])
 
   return (
     <div className={WRAPPER}>
@@ -155,21 +142,23 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
             textColor,
             gradient,
           }) => (
-            <div className={STAT_CARD} key={key}>
+            <div className={`${STAT_CARD} ${borderColor}`} key={key}>
               <div className="flex items-center gap-2 md:gap-3">
-                <Icon className="w-4 h-4 md:w-5 md:h-5" />
-              </div>
-              <div className="min-w-0">
-                <p
-                  className={`${VALUE_CLASS} ${
-                    gradient
-                      ? 'bg-linear-to-br from-fuchsia-500 to-purple-600 bg-clip-text text-transparent'
-                      : textColor
-                  }`}
-                >
-                  {stats[valueKey as keyof typeof stats]}
-                </p>
-                <p className={LABEL_CLASS}>{label}</p>
+                <div className={`${ICON_WRAPPER} ${iconColor}`}>
+                  <Icon className="w-4 h-4 md:w-5 md:h-5" />
+                </div>
+                <div className="min-w-0">
+                  <p
+                    className={`${VALUE_CLASS} ${
+                      gradient
+                        ? 'bg-linear-to-br from-fuchsia-500 to-purple-600 bg-clip-text text-transparent'
+                        : textColor
+                    }`}
+                  >
+                    {stats[valueKey as keyof typeof stats]}
+                  </p>
+                  <p className={LABEL_CLASS}>{label}</p>
+                </div>
               </div>
             </div>
           )
@@ -213,6 +202,7 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
             ))}
           </div>
         </div>
+
         {/* TASK LIST */}
         <div className="space-y-4">
           {filteredTasks.length === 0 ? (
@@ -246,6 +236,7 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
                   setSelectedTask(task)
                   setShowModal(true)
                 }}
+                onLogout={onLogout}
               />
             ))
           )}
@@ -262,8 +253,9 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
       </div>
 
       {/* MODAL */}
+
       <TaskModal
-        isOpen={showModal || !selectedTask}
+        isOpen={showModal}
         taskToEdit={selectedTask as TaskI}
         onSave={handleTaskSave}
         onClose={() => {
