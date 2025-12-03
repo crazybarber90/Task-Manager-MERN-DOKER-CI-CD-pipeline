@@ -80,8 +80,6 @@ const TaskModal = ({
     }
   }
 
-  console.log('TASK DATA', taskData)
-
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -95,7 +93,6 @@ const TaskModal = ({
 
       try {
         const isEdit = Boolean(taskData.id)
-        console.log('DA LI JE EDIT', isEdit)
         const url = isEdit ? `${API_BASE}/${taskData.id}/gp` : `${API_BASE}/gp`
         const response = await fetch(url, {
           method: isEdit ? 'PUT' : 'POST',
@@ -103,15 +100,12 @@ const TaskModal = ({
           body: JSON.stringify(taskData),
         })
 
-        console.log('response', response)
-
         if (!response.ok) {
           if (response.status === 401) return onLogout?.()
           const err = await response.json()
           throw new Error(err.message || 'Failed to save task')
         }
         const saved = await response.json()
-        console.log('OKINUUUUUUUUULLLALAALLALAL')
         onSave?.(saved)
         onClose()
       } catch (err) {

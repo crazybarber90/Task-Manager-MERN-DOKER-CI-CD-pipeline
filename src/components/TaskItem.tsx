@@ -38,9 +38,6 @@ const TaskItem = ({
     )
   )
   const [showEditModal, setShowEditModal] = useState(false)
-  // const [subTasks, setSubtasks] = useState(task.subtasks || [])
-
-  console.log('TASKKK', task)
 
   useEffect(() => {
     setIsCompleted(
@@ -61,11 +58,6 @@ const TaskItem = ({
   const borderColor = isCompleted
     ? 'border-l-green-500'
     : getPriorityColor(task.priority).split(' ')[0]
-
-  // const progress = subTasks.length
-  //   ? (subTasks.filter((st: TaskI) => st.completed).length / subTasks.length) *
-  //     100
-  //   : 0
 
   // COMPLETE ON RATIO BUTTON
   const handleComplete = async () => {

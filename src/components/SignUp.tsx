@@ -52,12 +52,13 @@ const SignUp = ({ onSwitchMode }: SignUpProps) => {
     try {
       const data = await axios.post(`${API_URL}/api/user/register`, formData)
 
-      console.log('SignUp Successfull', data)
-      setMessage({
-        text: 'Register successfull, You can login now.',
-        type: 'success',
-      })
-      setFormData(INITIAL_FORM)
+      if (data) {
+        setMessage({
+          text: 'Register successfull, You can login now.',
+          type: 'success',
+        })
+        setFormData(INITIAL_FORM)
+      }
     } catch (err) {
       console.error('Signup Error', err)
       if (axios.isAxiosError(err)) {

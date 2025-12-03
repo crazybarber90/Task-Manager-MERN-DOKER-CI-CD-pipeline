@@ -42,9 +42,6 @@ const CompletePage = () => {
       })
   }, [tasks, sortBy])
 
-  console.log('COMPLETED', tasks)
-  console.log('sortedCompletedTask', sortedCompletedTask)
-
   return (
     <div className={CT_CLASSES.page}>
       {/* HEADER */}
